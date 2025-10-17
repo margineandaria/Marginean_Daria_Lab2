@@ -38,6 +38,7 @@ namespace Marginean_Daria_Lab2.Pages.Books
             Book = book;
             ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID",
                 "PublisherName");
+            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName");
             return Page();
         }
 

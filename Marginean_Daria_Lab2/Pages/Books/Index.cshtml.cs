@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Marginean_Daria_Lab2.Data;
 using Marginean_Daria_Lab2.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Marginean_Daria_Lab2.Pages.Books
 {
@@ -18,13 +19,14 @@ namespace Marginean_Daria_Lab2.Pages.Books
         {
             _context = context;
         }
-
+        public SelectList AuthorSL { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int? SearchAuthorId { get; set; }
         public IList<Book> Book { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Book = await _context.Book.Include(b=>b.Publisher).ToListAsync();
-            Book = await _context.Book.Include(b=>b.Author).ToListAsync();
+            Book = await _context.Book.Include(b=>b.Publisher).Include(b =>b.Author).ToListAsync();
         }
     }
 }
