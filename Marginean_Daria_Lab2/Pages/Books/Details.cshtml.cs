@@ -19,7 +19,7 @@ namespace Marginean_Daria_Lab2.Pages.Books
             _context = context;
         }
 
-        public Book Book { get; set; } = default!;
+        public Book Book { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,16 +27,19 @@ namespace Marginean_Daria_Lab2.Pages.Books
             {
                 return NotFound();
             }
+            
+            Book = await _context.Book
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.BookCategories)
+                .ThenInclude(b => b.Category)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
-            var book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            if (Book == null)
             {
                 return NotFound();
             }
-            else
-            {
-                Book = book;
-            }
+            
             return Page();
         }
     }
