@@ -1,58 +1,78 @@
-@page
+@page "/"
 @model Marginean_Daria_Lab2.Pages.Books.IndexModel
-
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Books";
 }
-
-<h1>Index</h1>
+<h1>Books</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Book[0].Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Book[0].Author.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Book[0].Price)
-        </th> <th>
-            @Html.DisplayNameFor(model => model.Book[0].PublishingDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Book[0].Publisher.PublisherName)
-        </th>
-       
-        <th></th> </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Book) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td> @Html.DisplayFor(modelItem => item.PublishingDate) </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publisher.PublisherName)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Publishing Date</th>
+                    <th>Publisher</th>
+                    <th>Categories</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BookD.Books)
+                {
+                    // Evidențiază rândul selectat
+                    string selectedRow = "";
+                    if (item.ID == Model.BookID)
+                    {
+                        selectedRow = "table-success"; // Clasa Bootstrap pentru rând verde
+                    }
+                    <tr class="@selectedRow">
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Author.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PublishingDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Publisher.PublisherName)</td>
+                        <td>
+                            @{
+                                // Parcurge și afișează fiecare categorie a cărții
+                                foreach (var category in item.BookCategories)
+                                {
+                                    @:@(category.Category.CategoryName)<br />
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
+                            <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                            <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-4">
+        @if (Model.BookD.Categories != null)
+        {
+            <h3>Categories for Selected Book</h3>
+            <table class="table">
+                @foreach (var category in Model.BookD.Categories)
+                {
+                    <tr>
+                        <td>
+                            @category.CategoryName
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
