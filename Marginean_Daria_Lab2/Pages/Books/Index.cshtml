@@ -8,18 +8,45 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Book Title / Author Name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter"
+            />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 
 <div class="row">
     <div class="col-md-8">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Price</th>
-                    <th>Publishing Date</th>
-                    <th>Publisher</th>
-                    <th>Categories</th>
+                    <th>
+                        <a asp-page="./Index" asp-route-sortOrder="@Model.TitleSort">
+                            Title
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-page="./Index" asp-route-sortOrder="@Model.AuthorSort">
+                            Author
+                        </a>
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Publishing Date
+                    </th>
+                    <th>
+                        Publisher
+                    </th>
+                    <th>
+                        Categories
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,7 +67,6 @@
                         <td>@Html.DisplayFor(modelItem => item.Publisher.PublisherName)</td>
                         <td>
                             @{
-                                // Parcurge și afișează fiecare categorie a cărții
                                 foreach (var category in item.BookCategories)
                                 {
                                     @:@(category.Category.CategoryName)<br />
