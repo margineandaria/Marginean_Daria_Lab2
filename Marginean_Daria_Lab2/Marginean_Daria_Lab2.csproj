@@ -10,7 +10,9 @@
       <Folder Include="Migrations\" />
       <Folder Include="Pages\Authors\" />
       <Folder Include="Pages\Books\" />
+      <Folder Include="Pages\Borrowings\" />
       <Folder Include="Pages\Categories\" />
+      <Folder Include="Pages\Members\" />
       <Folder Include="Pages\Publishers\" />
     </ItemGroup>
 
