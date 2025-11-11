@@ -36,8 +36,18 @@ namespace Marginean_Daria_Lab2.Pages.Borrowings
                 return NotFound();
             }
             Borrowing = borrowing;
-           ViewData["BookID"] = new SelectList(_context.Book, "ID", "ID");
-           ViewData["MemberID"] = new SelectList(_context.Member, "ID", "ID");
+            
+            // Logica pt dropdown-uri (Sarcina 1)
+            var bookList = _context.Book
+                .Include(b => b.Author)
+                .Select(x => new
+                {
+                    x.ID,
+                    BookFullName = x.Title + " - " + x.Author.LastName + " " + x.Author.FirstName
+                });
+            ViewData["BookID"] = new SelectList(bookList, "ID", "BookFullName");
+            ViewData["MemberID"] = new SelectList(_context.Member, "ID", "FullName");
+            
             return Page();
         }
 
@@ -47,6 +57,17 @@ namespace Marginean_Daria_Lab2.Pages.Borrowings
         {
             if (!ModelState.IsValid)
             {
+                // Logica pt dropdown-uri (necesară pt reîncărcarea paginii la eroare)
+                var bookList = _context.Book
+                    .Include(b => b.Author)
+                    .Select(x => new
+                    {
+                        x.ID,
+                        BookFullName = x.Title + " - " + x.Author.LastName + " " + x.Author.FirstName
+                    });
+                ViewData["BookID"] = new SelectList(bookList, "ID", "BookFullName");
+                ViewData["MemberID"] = new SelectList(_context.Member, "ID", "FullName");
+                
                 return Page();
             }
 
