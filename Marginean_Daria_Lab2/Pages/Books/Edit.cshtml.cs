@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Marginean_Daria_Lab2.Models; // Namespace-ul tău corect
+using Marginean_Daria_Lab2.Models;
+using Microsoft.AspNetCore.Authorization; // Namespace-ul tău corect
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Marginean_Daria_Lab2.Pages.Books // Namespace-ul tău corect
+namespace Marginean_Daria_Lab2.Pages.Books 
 {
-    // ATENȚIE: Acum moștenește din BookCategoriesPageModel, nu din PageModel
+    [Authorize(Roles = "Admin")]
     public class EditModel : BookCategoriesPageModel 
     {
         private readonly Marginean_Daria_Lab2.Data.Marginean_Daria_Lab2Context _context;
@@ -37,7 +38,7 @@ namespace Marginean_Daria_Lab2.Pages.Books // Namespace-ul tău corect
                 return NotFound();
             }
             
-            // Apelam PopulateAssignedCategoryData pentru a obtine informatiile necesare checkbox-urilor
+            
             PopulateAssignedCategoryData(_context, Book);
             
             var authorList = _context.Author.Select(x => new
@@ -84,7 +85,7 @@ namespace Marginean_Daria_Lab2.Pages.Books // Namespace-ul tău corect
                 return RedirectToPage("./Index");
             }
             
-            // Daca TryUpdateModelAsync esueaza, repopulam datele necesare pentru a re-afisa pagina
+            
             UpdateBookCategories(_context, selectedCategories, bookToUpdate);
             PopulateAssignedCategoryData(_context, bookToUpdate);
             return Page();

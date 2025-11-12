@@ -5,9 +5,11 @@ using Marginean_Daria_Lab2.Data;
 using Marginean_Daria_Lab2.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Marginean_Daria_Lab2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : BookCategoriesPageModel
     {
         // Am scos 'readonly' de aici

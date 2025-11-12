@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Marginean_Daria_Lab2.Data;
 using Marginean_Daria_Lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Marginean_Daria_Lab2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly Marginean_Daria_Lab2.Data.Marginean_Daria_Lab2Context _context;
